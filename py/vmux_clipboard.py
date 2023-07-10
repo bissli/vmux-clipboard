@@ -1,3 +1,4 @@
+import io
 import os
 import re
 import sys
@@ -12,20 +13,20 @@ def sanitize(str):
 
 
 def write_to_clipboard():
-    with open(PATH, 'w') as f:
+    with io.open(PATH, 'w', encoding='utf8') as f:
         f.write(vim.eval('@"'))
 
 
 def read_from_clipboard():
     lines = []
-    with open(PATH, 'r') as f:
+    with io.open(PATH, 'r', encoding='utf8') as f:
         val = ''.join(f.readlines())
         vim.command('let @"=' + sanitize(val))
 
 
 if __name__ == '__main__':
     if not os.path.isfile(PATH):
-        f = open(PATH, 'w+')
+        f = io.open(PATH, 'w+', encoding='utf8')
         f.close()
     if sys.argv[0] == 'write':
         write_to_clipboard()
